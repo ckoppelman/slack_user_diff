@@ -1,0 +1,22 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+slack-sdk = "*"
+requests = "*"
+csv-diff = "*"
+
+[dev-packages]
+black = "*"
+flake8 = "*"
+
+[requires]
+python_version = "3.11"
+
+[scripts]
+diff = "python -m user_check.main"
+login = "slack login"
+lint = "bash -c 'black . && flake8 user_check/'"
+
