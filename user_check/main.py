@@ -36,15 +36,18 @@ shutil.copy("data/processed/" + CURRENT_RUN + ".csv", CURRENT_RUN_STATIC_PATH)
 
 
 if os.path.isfile(PREV_RUN_STATIC_PATH) and os.path.isfile(CURRENT_RUN_STATIC_PATH):
-    csv_diff, change_dict, num_changed = diff_csvs.compare_csvs(
+    csv_diff, change_dict, num_changed, deleted_rows = diff_csvs.compare_csvs(
         PREV_RUN_STATIC_PATH,
         CURRENT_RUN_STATIC_PATH,
         "id",
         ignore_fields=["updated_date"],
+        treat_as_delete=["is_deleted"],
     )
     with open("data/diff/" + CURRENT_RUN + ".diff.json", "w") as diff_file:
         diff_file.write(json.dumps(csv_diff))
 
-    if num_changed > LOG_THRESHOLD:
-        print(f"{num_changed} changes since last run.")
+    print(f"{num_changed} changes since last run.")
+    if num_changed >= LOG_THRESHOLD:
         print(json.dumps(change_dict, indent=4, sort_keys=True))
+
+    print(f"Deleted/deactivated row ids:\n   {deleted_rows}")
