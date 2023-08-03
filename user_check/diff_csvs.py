@@ -23,7 +23,7 @@ def compare_csvs(prev_path, curr_path, key, ignore_fields=[], treat_as_delete=[]
                     counted = True
                 changed[field].append(change["key"])
 
-                if field in treat_as_delete and change[field]:
+                if field in treat_as_delete and change["key"][field]:
                     removed_keys.append(change["key"])
 
     changed_rows += len(csv_diff["removed"])
